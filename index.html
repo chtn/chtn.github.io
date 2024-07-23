@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Static Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        .content {
+            padding: 2em;
+            text-align: center;
+        }
+        .cookie-consent-banner {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            padding: 1em;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        .cookie-consent-banner.show {
+            display: block;
+        }
+        .cookie-consent-banner button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to My Static Webpage</h1>
+    </div>
+
+    <div class="content">
+        <p>This is a sample static webpage.</p>
+        <p>Enjoy browsing!</p>
+    </div>
+
+    <div class="cookie-consent-banner" id="cookieConsentBanner">
+        <p>We use cookies to improve your experience on our site. By using our site, you accept our use of cookies.</p>
+        <button onclick="acceptCookies()">Accept</button>
+    </div>
+
+    <script>
+        // Function to show the cookie consent banner
+        function showCookieConsentBanner() {
+            var consentBanner = document.getElementById('cookieConsentBanner');
+            consentBanner.classList.add('show');
+        }
+
+        // Function to handle cookie consent acceptance
+        function acceptCookies() {
+            var consentBanner = document.getElementById('cookieConsentBanner');
+            consentBanner.classList.remove('show');
+            localStorage.setItem('cookieConsent', 'true');
+            setCookie('visitor_id', generateVisitorId(), 365);
+        }
+
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+
+        // Function to generate a random visitor ID
+        function generateVisitorId() {
+            return 'xxxx-xxxx-4xxx-yxxx-xxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // Check if cookie consent is already given
+        window.onload = function() {
+            var consentGiven = localStorage.getItem('cookieConsent');
+            if (!consentGiven) {
+                showCookieConsentBanner();
+            }
+        }
+    </script>
+</body>
+</html>
+
